@@ -34,6 +34,15 @@ public class StartupManager : MonoBehaviour
                 {
                     //Extract the index of the choice from the name of the object chosen
                     selectedIndex = playerSelected.selectedIndex;
+
+                    //Delete all unselected so only one exists when the Game Manager starts
+                    for(int i = 0; i < playerSelection.Length; i++)
+                    {
+                        if(i != selectedIndex)
+                        {
+                            Destroy(playerSelection[i]);
+                        }
+                    }
                     StartCoroutine("LoadLevel1Scene");
                 }
 
