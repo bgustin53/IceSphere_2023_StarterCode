@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Roguelike Prototypes/Player SelectionScene.unity
+    guid: 6f7ba239cdf7549c2b4e8bc44fd6a43a
+  - enabled: 1
     path: Assets/Scenes/Roguelike Prototypes/Level1.unity
     guid: a4b96ad7a65484fd4a83cb97540eee50
   - enabled: 1
     path: Assets/Scenes/Roguelike Prototypes/Level2.unity
     guid: 229d958f09bba43e8ae251d33f241a29
-  - enabled: 1
-    path: Assets/Scenes/Roguelike Prototypes/Player SelectionScene.unity
-    guid: 6f7ba239cdf7549c2b4e8bc44fd6a43a
   m_configObjects: {}
