@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class StartupManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] playerSelection;
-    private int selectedIndex;
+    private PlayerController[] players;
+
+    private void Start()
+    {
+        players = FindObjectsOfType<PlayerController>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -27,39 +31,25 @@ public class StartupManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 // Check if the object has a player selection component
-                Selectable playerSelected = hit.collider.GetComponent<Selectable>();
+                PlayerController playerSelected = hit.collider.GetComponent<PlayerController>();
 
                 // Check if a chouce was made
                 if (playerSelected != null)
                 {
-                    //Extract the index of the choice from the name of the object chosen
-                    selectedIndex = playerSelected.selectedIndex;
-                    StartCoroutine("LoadNextLevel");
+                    foreach(PlayerController player in players)
+                    {
+                        if(!playerSelected.Equals(player))
+                        {
+                            Destroy(player.gameObject);
+                        }
+                    }
+
+                    playerSelected.gameObject.transform.position = Vector3.up * 25;
+                    SceneManager.LoadScene("Level1");
                 }
 
             }
         }
     }
 
-    // Loads the Level1 scene asyncronously to move player into game/
-    private IEnumerator LoadNextLevel()
-    {
-        // Set the current Scene to be able to unload it later
-        Scene currentScene = SceneManager.GetActiveScene();
-
-        // The Application loads the Scene in the background at the same time as the current Scene.
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Level1", LoadSceneMode.Additive);
-
-        // Wait until the last operation fully loads to return anything
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-
-        // Move the Player into the newly loaded Scene
-        Scene level1 = SceneManager.GetSceneByName("Level1");
-        SceneManager.MoveGameObjectToScene(playerSelection[selectedIndex],level1);
-        // Unload the player selection Scene
-        SceneManager.UnloadSceneAsync(currentScene);
-    }
 }

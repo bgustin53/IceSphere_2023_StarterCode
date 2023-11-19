@@ -29,7 +29,7 @@ public class WaypointPatrol : MonoBehaviour
         if (navMeshAgent.remainingDistance < 0.1f && !navMeshAgent.pathPending)
         {
             waypointIndex = ++waypointIndex % waypoints.Length;
-            Debug.Log(waypointIndex);
+            //Debug.Log(waypointIndex);
         }
     }
 }

@@ -12,24 +12,14 @@ public class PlayerController : MonoBehaviour
     public bool hasPowerUp { get; private set; }
 
     // OnEnable is called when the player is enabled
-    void OnEnable()
+    void Start()
     {
+        DontDestroyOnLoad(gameObject);
         playerRB = GetComponent<Rigidbody>();
         playerCollider = GetComponent<SphereCollider>();
         powerUpIndicator = GetComponent<Light>();
-        focalpoint = GameObject.Find("Focal Point").transform;
-        transform.position = GameManager.Instance.playerStartPos;
-        transform.localScale = GameManager.Instance.playerScale;
-        playerRB.mass = GameManager.Instance.playerMass;
-        playerRB.drag = GameManager.Instance.playerDrag;
-        moveForce = GameManager.Instance.playerMoveForce;
-        playerCollider.material.bounciness = 0;
+        playerCollider.material.bounciness = 0.4f;
         powerUpIndicator.intensity = 0;
-        gameObject.layer = LayerMask.NameToLayer("Player");
-        if (GameManager.Instance.debugPowerUpRepel)
-        {
-            hasPowerUp = true;
-        }
     }
 
     // Update is called once per frame
@@ -44,10 +34,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void AssignLevelValues()
+    { 
+        transform.localScale = GameManager.Instance.playerScale;
+        playerRB.mass = GameManager.Instance.playerMass;
+        playerRB.drag = GameManager.Instance.playerDrag;
+        moveForce = GameManager.Instance.playerMoveForce;
+        focalpoint = GameObject.Find("Focal Point").transform;
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        if (GameManager.Instance.debugPowerUpRepel)
+        {
+            hasPowerUp = true;
+        }
+    }
+
     private void Move()
     {
-        float verticalInput = Input.GetAxis("Vertical");
-        playerRB.AddForce(focalpoint.forward.normalized * verticalInput * moveForce);
+        if (focalpoint != null)
+        {
+            float verticalInput = Input.GetAxis("Vertical");
+            playerRB.AddForce(focalpoint.forward.normalized * verticalInput * moveForce);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -56,6 +63,7 @@ public class PlayerController : MonoBehaviour
         {
             collision.gameObject.tag = "Ground";
             playerCollider.material.bounciness = GameManager.Instance.playerBounce;
+            AssignLevelValues();
         }
     }
 
@@ -81,7 +89,7 @@ public class PlayerController : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer("Player");
             if(transform.position.y < other.transform.position.y - 1)
             {
-                gameObject.SetActive(false);
+                transform.position = Vector3.up * 25;
                 GameManager.Instance.switchLevel = true;
             }
         }
