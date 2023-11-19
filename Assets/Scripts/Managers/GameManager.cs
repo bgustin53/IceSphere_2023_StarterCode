@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     public float playerRepelForce;
 
     [Header("Levels Fields")]
-    public int numberOfLevels;
     public GameObject[] waypoints;
 
     [Header("Debug Fields")]
@@ -29,6 +28,7 @@ public class GameManager : MonoBehaviour
     public bool switchLevel { private get; set; }
     public bool gameOver { private get; set; }
     private GameObject player;
+    private int numberOfLevels;
 
     // Awake is called before any Start methods are called
     void Awake()
@@ -42,6 +42,11 @@ public class GameManager : MonoBehaviour
         else if (Instance != this)
             Destroy(this);
         EnablePlayer();
+    }
+
+    private void Start()
+    {
+        numberOfLevels = SceneManager.sceneCountInBuildSettings - 1;
     }
 
     // Update is called once per frame
@@ -72,14 +77,15 @@ public class GameManager : MonoBehaviour
         switchLevel = false;
 
         // Get the name of the currently active scene
-        string currentScene = SceneManager.GetActiveScene().name;
+        Scene currentScene = SceneManager.GetActiveScene();
 
         // Extract the level number from the scene name
-        int nextLevel = int.Parse(currentScene.Substring(5)) + 1;
+        int nextLevel = int.Parse(currentScene.name.Substring(5)) + 1;
         if (nextLevel <= numberOfLevels)
         {
             // Load the next scene
-            SceneManager.LoadScene("Level" + nextLevel.ToString());
+            string nextSceneStr = "Level" + nextLevel.ToString();
+            StartCoroutine(LoadNextLevel(currentScene, nextSceneStr, player));
 
         }
         //If at the last level, ends the game.  //*****   More will go here after Prototype  ***** //
@@ -88,5 +94,24 @@ public class GameManager : MonoBehaviour
             gameOver = true;
             Debug.Log("You won");
         }
+    }
+
+    // Loads the Level1 scene asyncronously to move player into game/
+    IEnumerator LoadNextLevel(Scene currentScene, string nextLevel, GameObject player)
+    {
+        // The Application loads the Scene in the background at the same time as the current Scene.
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(nextLevel, LoadSceneMode.Additive);
+
+        // Wait until the last operation fully loads to return anything
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // Move the Player into the newly loaded Scene
+        Scene level1 = SceneManager.GetSceneByName(nextLevel);
+        SceneManager.MoveGameObjectToScene(player, level1);
+        // Unload the player selection Scene
+        SceneManager.UnloadSceneAsync(currentScene);
     }
 }

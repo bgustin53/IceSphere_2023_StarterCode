@@ -34,7 +34,7 @@ public class StartupManager : MonoBehaviour
                 {
                     //Extract the index of the choice from the name of the object chosen
                     selectedIndex = playerSelected.selectedIndex;
-                    StartCoroutine("LoadLevel1Scene");
+                    StartCoroutine("LoadNextLevel");
                 }
 
             }
@@ -42,7 +42,7 @@ public class StartupManager : MonoBehaviour
     }
 
     // Loads the Level1 scene asyncronously to move player into game/
-    IEnumerator LoadLevel1Scene()
+    private IEnumerator LoadNextLevel()
     {
         // Set the current Scene to be able to unload it later
         Scene currentScene = SceneManager.GetActiveScene();
