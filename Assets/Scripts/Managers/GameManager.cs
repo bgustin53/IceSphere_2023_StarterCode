@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public float playerRepelForce;
 
     [Header("Levels Fields")]
-    public int lastLevel;
+    public int numberOfLevels;
     public GameObject[] waypoints;
 
     [Header("Debug Fields")]
@@ -68,12 +68,15 @@ public class GameManager : MonoBehaviour
     //Extracts the level number from the string to set then load the next level.
     private void SwitchLevels()
     {
+        // Stops class from calling this method
+        switchLevel = false;
+
         // Get the name of the currently active scene
         string currentScene = SceneManager.GetActiveScene().name;
 
         // Extract the level number from the scene name
         int nextLevel = int.Parse(currentScene.Substring(5)) + 1;
-        if (nextLevel <= lastLevel)
+        if (nextLevel <= numberOfLevels)
         {
             // Load the next scene
             SceneManager.LoadScene("Level" + nextLevel.ToString());

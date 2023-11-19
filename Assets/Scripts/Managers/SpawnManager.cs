@@ -24,9 +24,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float powerUpByWaveProbability;
     [SerializeField] private float powerUpByWaveDuration;
 
-    [Header("Objects")]
+    [Header("Island")]
     [SerializeField] private GameObject island;
-    [SerializeField] private PlayerController player;
 
     private Vector3 islandSize;
     private int waveNumber;

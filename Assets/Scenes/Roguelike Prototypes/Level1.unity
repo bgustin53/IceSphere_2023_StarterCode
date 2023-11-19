@@ -520,7 +520,6 @@ MonoBehaviour:
   powerUpByWaveProbability: 0
   powerUpByWaveDuration: 0
   island: {fileID: 1403545341}
-  player: {fileID: 0}
 --- !u!4 &1402164823
 Transform:
   m_ObjectHideFlags: 0
@@ -781,7 +780,7 @@ MonoBehaviour:
   playerMoveForce: 120
   playerBounce: 0.5
   playerRepelForce: 0.75
-  lastLevel: 2
+  numberOfLevels: 2
   waypoints: []
   debugSpawnWaves: 0
   debugPowerUpRepel: 0
