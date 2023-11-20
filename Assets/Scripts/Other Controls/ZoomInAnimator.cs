@@ -19,6 +19,7 @@ public class ZoomInAnimator : MonoBehaviour
     private void OnDisable()
     {
         transform.localScale = desiredScale;
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     private void ZoomIn()

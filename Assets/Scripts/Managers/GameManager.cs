@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [Header("Player Fields")]
-    public Vector3 playerStartPos;
     public Vector3 playerScale;
     public float playerMass;
     public float playerDrag;
@@ -16,7 +15,6 @@ public class GameManager : MonoBehaviour
     public float playerRepelForce;
 
     [Header("Levels Fields")]
-    public int numberOfLevels;
     public GameObject[] waypoints;
 
     [Header("Debug Fields")]
