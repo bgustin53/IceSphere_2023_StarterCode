@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*************************************************************************
+ * FocalPointRotator is attached to a Focal Point.  It moves the camera
+ * around the island with user controls.
+ * 
+ * Bruce Gustin
+ * November 23, 2023
+ ************************************************************************/
+
 public class FocalPointRotator : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed;
+    [SerializeField] private float rotationSpeed;     // How fast the user can rotate around the island
 
     // Update is called once per frame
     void Update()

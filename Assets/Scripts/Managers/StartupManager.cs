@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*************************************************************************
+ * Startup manager is attached to a Player Selection scene's camera.  It
+ * allows the player to select thier player choice.
+ * 
+ * Bruce Gustin
+ * November 23, 2023
+ ************************************************************************/
+
 public class StartupManager : MonoBehaviour
 {
-    private PlayerController[] players;
+    private PlayerController[] players;        //Array representing all available player choices
 
     private void Start()
     {
+        // initializes the players array with player objects
         players = FindObjectsOfType<PlayerController>();
     }
 
-    // Update is called once per frame
+    // Update calls SelcectPlayerAndStartGame once per frame
     void Update()
     {
         SelectPlayerAndStartGame();
@@ -36,6 +45,7 @@ public class StartupManager : MonoBehaviour
                 // Check if a chouce was made
                 if (playerSelected != null)
                 {
+                    // Deletes all the unchosen players from the scene.
                     foreach(PlayerController player in players)
                     {
                         if(!playerSelected.Equals(player))
@@ -44,6 +54,7 @@ public class StartupManager : MonoBehaviour
                         }
                     }
 
+                    // Moves the chosen player above the scene 
                     playerSelected.gameObject.transform.position = Vector3.up * 25;
                     SceneManager.LoadScene("Level1");
                 }

@@ -2,30 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*************************************************************************
+ * PlayerController is attached to a Player  It moves the player with user 
+ * controls and detects collisions.
+ * 
+ * Bruce Gustin
+ * November 23, 2023
+ ************************************************************************/
+
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody playerRB;
-    private SphereCollider playerCollider;
-    private Light powerUpIndicator;
-    private Transform focalpoint;
-    private float moveForce;
-    public bool hasPowerUp { get; private set; }
+    private Rigidbody playerRB;                   // To utilized player physics
+    private SphereCollider playerCollider;        // Places collider around player not model.
+    private Light powerUpIndicator;               // Component to emit light when triggering a powerup
+    private Transform focalpoint;                 // Makes sure the the force is always pointing toward the focal point
+    private float moveForce;                      // Force of forward movement
+    public bool hasPowerUp { get; private set; }  // Allows SpawnManager to detect powerup on player
 
-    // OnEnable is called when the player is enabled
+    // Assigns components to fields
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
         playerRB = GetComponent<Rigidbody>();
         playerCollider = GetComponent<SphereCollider>();
         powerUpIndicator = GetComponent<Light>();
-        playerCollider.material.bounciness = 0.4f;
-        powerUpIndicator.intensity = 0;
+
+        playerCollider.material.bounciness = 0.4f;  // Set bounciness of rigidbody
+        powerUpIndicator.intensity = 0;             // Makes sure the powerup indicator light if off on startup
+        DontDestroyOnLoad(gameObject);              // Allows player to move between scenes
     }
 
-    // Update is called once per frame
+    // Update is called once per frame using physics system
     void FixedUpdate()
     {
         Move();
+
+        // End of game condition
         if(transform.position.y < -10)
         {
             GameManager.Instance.gameOver = true;
@@ -34,6 +45,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Updates player's field between levels when the player hits the ground triggered in OnCollisionEnter
     private void AssignLevelValues()
     { 
         transform.localScale = GameManager.Instance.playerScale;
@@ -48,17 +60,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Uses user's vertical input to move the player
     private void Move()
     {
         if (focalpoint != null)
         {
             float verticalInput = Input.GetAxis("Vertical");
+
+            // noramlized so that the directional vector doesn't impact the vectors magnitude
             playerRB.AddForce(focalpoint.forward.normalized * verticalInput * moveForce);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Changes Startup to ground to that the player is no constantly updating whilecolliding with the ground
         if(collision.gameObject.CompareTag("Startup"))
         {
             collision.gameObject.tag = "Ground";
@@ -67,6 +83,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Triggers are on portals and powerups
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Portal"))
@@ -82,11 +99,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Resets portal state when exiting the portal.  
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Portal"))
         {
             gameObject.layer = LayerMask.NameToLayer("Player");
+
+            // differentiates between the player going into the portal and popuping up over the portal
             if(transform.position.y < other.transform.position.y - 1)
             {
                 transform.position = Vector3.up * 25;
@@ -95,6 +115,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Toggles on the powerup indicator for "cooldown" seconds.
     IEnumerator Cooldown(float cooldown)
     {
         hasPowerUp = true;

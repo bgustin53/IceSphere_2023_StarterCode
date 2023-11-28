@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*************************************************************************
+ * Game manager is attached to a Game Manager game objects in every scene 
+ * except the Player Selector scene.  It's primary purpose is to hold all
+ * the non-spawn metric from the GDD for use in the scene.
+ * 
+ * Bruce Gustin
+ * November 23, 2023
+ ************************************************************************/
+
 public class GameManager : MonoBehaviour
 {
+    // Field values need to be added from the GDD
     public static GameManager Instance;
     [Header("Player Fields")]
     public Vector3 playerScale;
@@ -14,9 +24,11 @@ public class GameManager : MonoBehaviour
     public float playerBounce;
     public float playerRepelForce;
 
+    // Length determined in the GDD
     [Header("Levels Fields")]
     public GameObject[] waypoints;
 
+    // Toggles during prototype development
     [Header("Debug Fields")]
     public bool debugSpawnWaves;
     public bool debugPowerUpRepel;
@@ -24,10 +36,11 @@ public class GameManager : MonoBehaviour
     public bool debugSpawnPowerUp;
     public bool debugTransport;
 
-    public bool switchLevel { private get; set; }
-    public bool gameOver { private get; set; }
+    public bool switchLevel { private get; set; }   // Set from player trigger when player passes through portal
+    public bool gameOver { private get; set; }      // Set from player with it falls below -10 meter 
 
-    // Awake is called before any Start methods are called
+    // Awake is called before any Start methods are called  It insures that the Game Manager is
+    // there for the Player and Ice SPhere to get field valued from the GDD
     void Awake()
     {
         //This is a common approach to handling a class with a reference to itself.
@@ -50,7 +63,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    //Extracts the level number from the string to set then load the next level.
+    // Extracts the level number from the string to set then load the next level.
     private void SwitchLevels()
     {
         // Stops class from calling this method
