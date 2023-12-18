@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /*************************************************************************
  * PlayerController is attached to a Player  It moves the player with user 
@@ -16,8 +17,16 @@ public class PlayerController : MonoBehaviour
     private SphereCollider playerCollider;        // Places collider around player not model.
     private Light powerUpIndicator;               // Component to emit light when triggering a powerup
     private Transform focalpoint;                 // Makes sure the the force is always pointing toward the focal point
-    private float moveForce;                      // Force of forward movement
+    private PlayerInputActions inputAction;       // C# script of Input Action
+    private float moveForceMagnitude;             // Force of forward movement
+    private float forwardOrBackward;                // Direction of movement (forward or backwards)
     public bool hasPowerUp { get; private set; }  // Allows SpawnManager to detect powerup on player
+
+   // Create a new InputAction object
+   void Awake()
+    {
+        inputAction = new PlayerInputActions();
+    }
 
     // Assigns components to fields
     void Start()
@@ -31,8 +40,24 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);              // Allows player to move between scenes
     }
 
+    // Add OnMovement events to inputAction's Player's movement
+    private void OnEnable()
+    {
+        inputAction.Enable();
+        inputAction.Player.Movement.performed += OnMovementPerformed;
+        inputAction.Player.Movement.canceled += OnMovementCanceled;
+    }
+
+    // Remove OnMovement events to inputAction's Player's movement
+    private void OnDisable()
+    {
+        inputAction.Disable();
+        inputAction.Player.Movement.performed -= OnMovementPerformed;
+        inputAction.Player.Movement.canceled -= OnMovementCanceled;
+    }
+
     // Update is called once per frame using physics system
-    void FixedUpdate()
+    void Update()
     {
         Move();
 
@@ -51,7 +76,7 @@ public class PlayerController : MonoBehaviour
         transform.localScale = GameManager.Instance.playerScale;
         playerRB.mass = GameManager.Instance.playerMass;
         playerRB.drag = GameManager.Instance.playerDrag;
-        moveForce = GameManager.Instance.playerMoveForce;
+        moveForceMagnitude = GameManager.Instance.playerMoveForce;
         focalpoint = GameObject.Find("Focal Point").transform;
         gameObject.layer = LayerMask.NameToLayer("Player");
         if (GameManager.Instance.debugPowerUpRepel)
@@ -60,15 +85,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Uses user's vertical input to move the player
+    // Called when movement binding is performed
+    private void OnMovementPerformed(InputAction.CallbackContext value)
+    {
+        forwardOrBackward = value.ReadValue<Vector2>().y;
+    }
+
+    // Called when movement binding has been completed
+    private void OnMovementCanceled(InputAction.CallbackContext value)
+    {
+        forwardOrBackward = 0;    // Neither forward or backward
+    }
+
+    // Add force for player motion
     private void Move()
     {
         if (focalpoint != null)
         {
-            float verticalInput = Input.GetAxis("Vertical");
-
-            // noramlized so that the directional vector doesn't impact the vectors magnitude
-            playerRB.AddForce(focalpoint.forward.normalized * verticalInput * moveForce);
+            playerRB.AddForce(focalpoint.forward.normalized * forwardOrBackward * moveForceMagnitude);
         }
     }
 

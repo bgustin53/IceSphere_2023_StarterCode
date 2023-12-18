@@ -787,7 +787,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930970985}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4834874, y: 1.4865766, z: -0.03601539}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -855,7 +855,7 @@ MonoBehaviour:
   playerScale: {x: 1.25, y: 1.25, z: 1.25}
   playerMass: 10
   playerDrag: 0.2
-  playerMoveForce: 120
+  playerMoveForce: 15
   playerBounce: 0.5
   playerRepelForce: 0.75
   waypoints: []
@@ -946,7 +946,6 @@ GameObject:
   - component: {fileID: 8393706294332186576}
   - component: {fileID: 9140623060177478609}
   - component: {fileID: 6579525022727241004}
-  - component: {fileID: 5114260805576196547}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -960,19 +959,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7465499868554396099}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5114260805576196547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3910273873018129200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed7efa8a4716049a593c87a7bb98fc5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedIndex: 0
 --- !u!114 &6579525022727241004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1004,8 +990,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3910273873018129200}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 10
+  m_Drag: 0.2
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /*************************************************************************
  * FocalPointRotator is attached to a Focal Point.  It moves the camera
@@ -13,12 +14,46 @@ using UnityEngine;
 public class FocalPointRotator : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed;     // How fast the user can rotate around the island
+    private PlayerInputActions inputAction;
+    private float moveDirection;
 
-    // Update is called once per frame
+    // Create a new InputAction object
+    void Awake()
+    {
+        inputAction = new PlayerInputActions();
+    }
+
+    // Add OnMovement events to inputAction's Player's movement
+    private void OnEnable()
+    {
+        inputAction.Enable();
+        inputAction.Player.Movement.performed += OnMovementPerformed;
+        inputAction.Player.Movement.canceled += OnMovementCanceled;
+    }
+
+    // Remove OnMovement events to inputAction's Player's movement
+    private void OnDisable()
+    {
+        inputAction.Disable();
+        inputAction.Player.Movement.performed -= OnMovementPerformed;
+        inputAction.Player.Movement.canceled -= OnMovementCanceled;
+    }
+
+    // Rotate the foal points which the camera is attached to
     void Update()
     {
-        //Sets Keyboard input A-D-Left-RIght to [0. 1) to rotate the foal points which the camera is attached to
-        float horizontalInput = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, moveDirection * rotationSpeed * Time.deltaTime);
+    }
+
+    // Called when movement binding is performed
+    private void OnMovementPerformed(InputAction.CallbackContext value)
+    {
+        moveDirection = value.ReadValue<Vector2>().x;
+    }
+
+    // Called when movement binding has been completed
+    private void OnMovementCanceled(InputAction.CallbackContext value)
+    {
+        moveDirection = 0;
     }
 }
