@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.layer = LayerMask.NameToLayer("Player");
 
-            // differentiates between the player going into the portal and popuping up over the portal
+            // differentiates between the player going into the portal and popping up over the portal
             if(transform.position.y < other.transform.position.y - 1)
             {
                 transform.position = Vector3.up * 25;

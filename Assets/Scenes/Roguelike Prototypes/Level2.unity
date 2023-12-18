@@ -1267,7 +1267,7 @@ MonoBehaviour:
   - {fileID: 4961223036505627615}
   - {fileID: 4623081322153254246}
   debugSpawnWaves: 0
-  debugPowerUpRepel: 0
+  debugPowerUpRepel: 1
   debugSpawnPortal: 0
   debugSpawnPowerUp: 0
   debugTransport: 0
