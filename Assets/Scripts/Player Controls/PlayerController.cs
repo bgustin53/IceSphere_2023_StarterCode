@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private Transform focalpoint;                 // Makes sure the the force is always pointing toward the focal point
     private PlayerInputActions inputAction;       // C# script of Input Action
     private float moveForceMagnitude;             // Force of forward movement
-    private float forwardOrBackward;                // Direction of movement (forward or backwards)
+    private float forwardOrBackward;              // Direction of movement (forward or backwards)
     public bool hasPowerUp { get; private set; }  // Allows SpawnManager to detect powerup on player
 
    // Create a new InputAction object
