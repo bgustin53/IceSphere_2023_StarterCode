@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/*************************************************************************
- * PlayerController is attached to a Player  It moves the player with user 
- * controls and detects collisions.
+/************************************************************************
+ * PlayerController is attached to the Player  It moves the player with 
+ * user controls and detects collisions.
  * 
  * Bruce Gustin
  * November 23, 2023
- ************************************************************************/
+ ***********************************************************************/
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private float forwardOrBackward;              // Direction of movement (forward or backwards)
     public bool hasPowerUp { get; private set; }  // Allows SpawnManager to detect powerup on player
 
-   // Create a new InputAction object
+   // Creates a new InputAction object
    void Awake()
     {
         inputAction = new PlayerInputActions();
@@ -56,8 +56,8 @@ public class PlayerController : MonoBehaviour
         inputAction.Player.Movement.canceled -= OnMovementCanceled;
     }
 
-    // Update is called once per frame using physics system
-    void Update()
+    // FixedUpdate is called once per frame using physics system
+    void FixedUpdate()
     {
         Move();
 
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         forwardOrBackward = 0;    // Neither forward or backward
     }
 
-    // Add force for player motion
+    // Adds force for player motion
     private void Move()
     {
         if (focalpoint != null)
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Changes Startup to ground to that the player is no constantly updating whilecolliding with the ground
+        // Changes Startup to ground so that the player is not constantly updating whilecolliding with the ground
         if(collision.gameObject.CompareTag("Startup"))
         {
             collision.gameObject.tag = "Ground";

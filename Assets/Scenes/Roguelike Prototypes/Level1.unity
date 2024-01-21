@@ -855,7 +855,7 @@ MonoBehaviour:
   playerScale: {x: 1.25, y: 1.25, z: 1.25}
   playerMass: 10
   playerDrag: 0.2
-  playerMoveForce: 15
+  playerMoveForce: 120
   playerBounce: 0.5
   playerRepelForce: 0.75
   waypoints: []
