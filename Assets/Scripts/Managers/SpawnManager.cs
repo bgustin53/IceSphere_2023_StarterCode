@@ -49,7 +49,7 @@ public class SpawnManager : MonoBehaviour
         // Initializes waveNumber as dictated by the GDD
         waveNumber = initialWave;
 
-        // Use for debugging.  Keeps portal on for 99 second so it is easy to enter a portal
+        // Used for debugging.  Keeps portal on for 99 second so it is easy to enter a portal
         if(GameManager.Instance.debugTransport)
         {
             portalByWaveDuration = 99;
@@ -59,20 +59,20 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Makes sure that the postal does not appear until what is stated in the GDD and is there is not alreay one present
+        // Makes sure that the postal does not appear until what is stated in the GDD and only if one is not already present
         if ((waveNumber > portalFirstAppearance || GameManager.Instance.debugSpawnPortal) && !portalActive)
         {
             SetObjectActive(portal, portalByWaveProbability);
         }
 
-        // Makes sure that the pposwerUp does not appear until what is stated in the GDD and is there is not alreay one present
+        // Makes sure that the powerUp does not appear until what is stated in the GDD and only if one is not already present
         if ((waveNumber > powerUpFirstAppearance || GameManager.Instance.debugSpawnPowerUp)
              && !powerUpActive)
         {
             SetObjectActive(powerUp, powerUpByWaveProbability);
         }
 
-        // Initiates a new wave when there is no longer and Ice Spheres present
+        // Initiates a new wave when there is no longer an Ice Spheres present
         if (FindObjectsOfType<IceSphereController>().Length == 0 &&
            GameObject.Find("Player") != null)
         {
@@ -80,7 +80,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    // Spawsn ice spheres
+    // Spawns ice spheres
     private void SpawnIceWave()
     {
         for(int i = 0; i <= increaseEachWave * (waveNumber - 1) ; i++)

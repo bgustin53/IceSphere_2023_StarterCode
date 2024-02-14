@@ -22,7 +22,7 @@ public class IceSphereController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Accelerates wave spawning
+        // Accelerates wave spawning for debuggin purposes
         if(GameManager.Instance.debugSpawnWaves)
         {
             reductionEachRepeat = .5f;

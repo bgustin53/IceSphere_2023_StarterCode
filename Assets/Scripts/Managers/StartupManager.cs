@@ -17,11 +17,11 @@ public class StartupManager : MonoBehaviour
 
     private void Start()
     {
-        // initializes the players array with player objects
+        // initializes the player's array with player objects
         players = FindObjectsOfType<PlayerController>();
     }
 
-    // Update calls SelcectPlayerAndStartGame once per frame
+    // Update calls SelectPlayerAndStartGame once per frame as it waits for user choice of player
     void Update()
     {
         SelectPlayerAndStartGame();

@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);              // Allows player to move between scenes
     }
 
-    // Add OnMovement events to inputAction's Player's movement
+    // Adds OnMovement events to inputAction's Player's movement
     private void OnEnable()
     {
         inputAction.Enable();
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Changes Startup to ground so that the player is not constantly updating whilecolliding with the ground
+        // Changes Startup to ground so that the player is not constantly updating while colliding with the ground
         if(collision.gameObject.CompareTag("Startup"))
         {
             collision.gameObject.tag = "Ground";

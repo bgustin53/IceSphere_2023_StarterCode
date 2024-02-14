@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
     }
 
-    // Update is called once per frame
+    // Update is called once per frame checking if ready to switch levels
     void Update()
     {
         if(switchLevel)
@@ -62,11 +62,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     // Extracts the level number from the string to set then load the next level.
     private void SwitchLevels()
     {
-        // Stops class from calling this method
+        // Stops class from calling this method again
         switchLevel = false;
 
         // Get the name of the currently active scene
@@ -75,14 +74,14 @@ public class GameManager : MonoBehaviour
         // Extract the level number from the scene name
         int nextLevel = int.Parse(currentScene.Substring(5)) + 1;
 
-        // Check to see it your at the last level
+        // Checks to see if you're at the last level
         if (nextLevel <= SceneManager.sceneCountInBuildSettings - 1)
         {
             // Load the next scene
             SceneManager.LoadScene("Level" + nextLevel.ToString());
 
         }
-        //If at the last level, ends the game.  //*****   More will go here after Prototype  ***** //
+        //If you are at the last level, ends the game.  //*****   More will go here after Prototype  ***** //
         else
         {
             gameOver = true;

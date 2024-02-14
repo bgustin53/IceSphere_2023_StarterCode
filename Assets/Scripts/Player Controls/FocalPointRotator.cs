@@ -14,8 +14,8 @@ using UnityEngine.InputSystem;
 public class FocalPointRotator : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed;     // How fast the user can rotate around the island
-    private PlayerInputActions inputAction;
-    private float moveDirection;
+    private PlayerInputActions inputAction;           // Player's input controller for clockwise/counterclockwise motion
+    private float moveDirection;                      // Determins if clockwise or counterclockwisw
 
     // Create a new InputAction object
     void Awake()
@@ -23,7 +23,7 @@ public class FocalPointRotator : MonoBehaviour
         inputAction = new PlayerInputActions();
     }
 
-    // Add OnMovement events to inputAction's Player's movement
+    // Adds OnMovement events to inputAction's Player's movement
     private void OnEnable()
     {
         inputAction.Enable();
@@ -39,7 +39,7 @@ public class FocalPointRotator : MonoBehaviour
         inputAction.Player.Movement.canceled -= OnMovementCanceled;
     }
 
-    // Rotate the foal points which the camera is attached to
+    // Rotate the focal point which the camera is attached to causing the camera to turn
     void Update()
     {
         transform.Rotate(Vector3.up, moveDirection * rotationSpeed * Time.deltaTime);
